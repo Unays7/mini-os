@@ -125,7 +125,8 @@ impl Writer {
         }
     }
 
-    fn clear_screen(&mut self) {
+    #[allow(dead_code)]
+    pub fn clear_screen(&mut self) {
         for row in 0..BUFFER_HEIGHT {
             self.clear_row(row);
         }

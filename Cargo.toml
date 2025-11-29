@@ -14,6 +14,7 @@ edition = "2024"
 bootloader = "0.9"
 volatile = "0.2.6"
 spin = "0.5.2"
+x86_64 = "0.14.2"
 
 [dependencies.lazy_static]
 version = "1.0"
@@ -22,5 +23,9 @@ features = ["spin_no_std"]
 
 [[bin]]
 name = "mini_os"
-test = false
+test = true
 bench = false
+
+
+[package.metadata.bootimage]
+test-args = ["-device", "isa-debug-exit,iobase=0xf4,iosize=0x04"]

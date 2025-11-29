@@ -13,6 +13,7 @@ A minimal x86_64 operating system written in Rust, following and extending [Phil
 - **SMP support** (per-CPU variables, CPU masks)
 - **Process management** (cgroups)
 - **Kernel data structures** (linked lists, radix trees, bit arrays)
+- **(Maybe??) ACPI Power Management**
 
 ## Resources
 
@@ -20,6 +21,7 @@ A minimal x86_64 operating system written in Rust, following and extending [Phil
 - **Linux Insides**: [GitHub](https://github.com/0xAX/linux-insides)
 - **Bootloader ASM**: [GitHub](https://github.com/Stefan20162016/linux-insides-code/blob/master/bootloader.asm)
 - **Rustonomicon**: [Rustonomicon](https://doc.rust-lang.org/nomicon/intro.html)
+- **x86_64 Rust Repo** [x86_64](https://github.com/rust-osdev/x86_64)
 
 ---
 
@@ -125,12 +127,11 @@ A minimal x86_64 operating system written in Rust, following and extending [Phil
 
 **Milestone**: Boot your kernel WITHOUT the bootloader crate
 
----
-
 ## Phase 7: Advanced Kernel Features
 
 ### Linux Insides - System Calls
 
+- [ ] Learn how to impl Acm or ACPI for kernel shutdown.
 - [ ] Introduction to system calls
 - [ ] How the Linux kernel handles a system call
 - [ ] vsyscall and vDSO
