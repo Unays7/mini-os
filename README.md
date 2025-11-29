@@ -1,4 +1,10 @@
-# Mini OS
+# mini-os
+
+A minimal x86_64 operating system written in Rust, following and extending [Phil Opp's excellent tutorial](https://os.phil-opp.com/).
+
+## What have I added?
+
+- Custom bootloader
 
 ## Resources
 
