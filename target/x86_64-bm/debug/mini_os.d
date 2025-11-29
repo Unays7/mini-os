@@ -1,0 +1,1 @@
+/Users/unaysangus/Desktop/Projects/randomshit/mini_os/target/x86_64-bm/debug/mini_os: /Users/unaysangus/Desktop/Projects/randomshit/mini_os/src/main.rs /Users/unaysangus/Desktop/Projects/randomshit/mini_os/src/vga_buffer.rs
