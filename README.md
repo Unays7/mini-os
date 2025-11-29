@@ -2,7 +2,7 @@
 
 A minimal x86_64 operating system written in Rust, following and extending [Phil Opp's excellent tutorial](https://os.phil-opp.com/).
 
-## What I've Added Beyond Phil Opp
+## What I've Added?
 
 - **Custom bootloader** (GDT, mode transitions, kernel loading)
 - **System calls** (syscall/sysret, vsyscall, vDSO)
