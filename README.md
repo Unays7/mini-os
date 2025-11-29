@@ -2,9 +2,17 @@
 
 A minimal x86_64 operating system written in Rust, following and extending [Phil Opp's excellent tutorial](https://os.phil-opp.com/).
 
-## What have I added?
+## What I've Added Beyond Phil Opp
 
-- Custom bootloader
+- **Custom bootloader** (GDT, mode transitions, kernel loading)
+- **System calls** (syscall/sysret, vsyscall, vDSO)
+- **Synchronization primitives** (spinlocks, mutexes, semaphores, RCU)
+- **Timers & time management** (clocksource, clockevents)
+- **Advanced interrupts** (softirq, tasklets, workqueues)
+- **Real scheduler** (beyond async/await)
+- **SMP support** (per-CPU variables, CPU masks)
+- **Process management** (cgroups)
+- **Kernel data structures** (linked lists, radix trees, bit arrays)
 
 ## Resources
 
@@ -12,6 +20,18 @@ A minimal x86_64 operating system written in Rust, following and extending [Phil
 - **Linux Insides**: [GitHub](https://github.com/0xAX/linux-insides)
 - **Bootloader ASM**: [GitHub](https://github.com/Stefan20162016/linux-insides-code/blob/master/bootloader.asm)
 - **Rustonomicon**: [Rustonomicon](https://doc.rust-lang.org/nomicon/intro.html)
+
+---
+
+## Phase 1: Bare Bones Kernel ✅
+
+### Phil Opp
+
+- [x] A Freestanding Rust Binary
+- [x] A Minimal Rust Kernel
+- [x] VGA Text Mode
+
+**Milestone**: Boot and print "Hello World" to VGA buffer
 
 ---
 
@@ -76,6 +96,7 @@ A minimal x86_64 operating system written in Rust, following and extending [Phil
 ### Linux Insides (Read Alongside)
 
 - [ ] **Initialization** → Scheduler initialization
+- [ ] **Synchronization** → RCU
 - [ ] **SMP** → Concepts
 
 **Milestone**: Cooperative multitasking with async/await
@@ -123,19 +144,33 @@ A minimal x86_64 operating system written in Rust, following and extending [Phil
 - [ ] Semaphores
 - [ ] Mutex
 - [ ] Reader/Writer semaphores
-- [ ] RCU
+- [ ] RCU (deep dive)
+
+### Linux Insides - Interrupts (Advanced)
+
+- [ ] Softirq, Tasklets and Workqueues
+- [ ] Handling Non-Maskable interrupts
 
 ### Linux Insides - Timers
 
 - [ ] Clocksource framework
 - [ ] Introduction to timers
 - [ ] Clockevents framework
+- [ ] x86 related clock sources
+- [ ] Time related system calls
 
 ### Linux Insides - Data Structures
 
 - [ ] Doubly linked list
 - [ ] Radix tree
 - [ ] Bit arrays
+
+### Linux Insides - Theory
+
+- [ ] ELF64
+- [ ] MSR (Model Specific Registers)
+- [ ] CPUID
+- [ ] Inline assembly
 
 **Milestone**: Implement syscalls, locks, timers, efficient data structures
 
@@ -149,6 +184,7 @@ A minimal x86_64 operating system written in Rust, following and extending [Phil
 - [ ] **SMP** → Cpumasks
 - [ ] **SMP** → The initcall mechanism
 - [ ] **Cgroups** → Introduction to Control Groups
+- [ ] **Initial ram disk** → initrd
 
 **Milestone**: Multi-core support, process isolation
 
