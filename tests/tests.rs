@@ -23,3 +23,8 @@ fn panic(info: &PanicInfo) -> ! {
 fn test_println() {
     println!("test_println output");
 }
+
+#[test_case]
+fn test_breakpoint_exception() {
+    x86_64::instructions::interrupts::int3();
+}
