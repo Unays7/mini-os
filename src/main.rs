@@ -11,8 +11,11 @@ pub extern "C" fn _start() -> ! {
 
     mini_os::init();
     // mini_os::custom_init();
+    // x86_64::instructions::interrupts::int3();
 
-    x86_64::instructions::interrupts::int3();
+    unsafe {
+        *(0xfaaadd as *mut u8) = 42;
+    }
 
     #[cfg(test)]
     test_main();
