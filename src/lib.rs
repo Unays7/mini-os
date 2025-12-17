@@ -2,14 +2,24 @@
 #![cfg_attr(test, no_main)]
 #![feature(custom_test_frameworks)]
 #![feature(abi_x86_interrupt)]
+#![feature(asm)]
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use core::panic::PanicInfo;
+use core::{arch::asm, panic::PanicInfo};
 
+pub mod custom_idt;
 pub mod interrupts;
 pub mod serial;
 pub mod vga_buffer;
+
+fn divide_by_zero() {
+    unsafe { asm!("mov dx, 0; div dx", "ax", "dx", "volatile", "intel") }
+}
+
+pub fn custom_init() {
+    custom_idt::init_idt();
+}
 
 pub fn init() {
     interrupts::init_idt();
