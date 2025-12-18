@@ -1,8 +1,10 @@
+use core::arch::asm;
 use lazy_static::lazy_static;
 use x86_64::{
     VirtAddr,
+    registers::segmentation::{CS, Segment},
     structures::{
-        gdt::{Descriptor, GlobalDescriptorTable},
+        gdt::{Descriptor, GlobalDescriptorTable, SegmentSelector},
         tss::TaskStateSegment,
     },
 };
@@ -23,16 +25,31 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref GDT: GlobalDescriptorTable = {
+    static ref GDT: (GlobalDescriptorTable, Selectors) = {
         let mut gdt = GlobalDescriptorTable::new();
-        gdt.add_entry(Descriptor::kernel_code_segment());
-        gdt.add_entry(Descriptor::tss_segment(&TSS));
-        gdt
+        let code_selector = gdt.add_entry(Descriptor::kernel_code_segment());
+        let tss_selector = gdt.add_entry(Descriptor::tss_segment(&TSS));
+        (
+            gdt,
+            Selectors {
+                code_selector,
+                tss_selector,
+            },
+        )
     };
 }
 
 pub fn init() {
-    GDT.load();
+    GDT.0.load();
+    unsafe {
+        CS::set_reg(GDT.1.code_selector);
+        asm!("ltr {0:x}", in(reg) GDT.1.tss_selector.0, options(nostack, preserves_flags));
+    }
+}
+
+pub struct Selectors {
+    code_selector: SegmentSelector,
+    tss_selector: SegmentSelector,
 }
 
 pub struct CustomGlobalDescriptorTable {} // TO-DO
