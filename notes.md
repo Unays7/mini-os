@@ -1,3 +1,5 @@
+thx claude for creating this plan lol
+
 ## Phase 1: Bare Bones Kernel ✅
 
 ### Phil Opp
@@ -14,21 +16,21 @@
 
 ### Phil Opp
 
-- [ ] Testing
-- [ ] CPU Exceptions
-- [ ] Double Faults
+- [x] Testing
+- [x] CPU Exceptions
+- [x] Double Faults
 
 ### Linux Insides (Read Alongside)
 
-- [ ] **Interrupts** → Introduction
-- [ ] **Interrupts** → Interrupt handlers
-- [ ] **Interrupts** → Implementation of some exception handlers
+- [x] **Interrupts** → Introduction
+- [x] **Interrupts** → Interrupt handlers
+- [x] **Interrupts** → Implementation of some exception handlers
 
 **Milestone**: Handle CPU exceptions (divide by zero, page fault, etc.)
 
 ---
 
-## Phase 3: Hardware Interrupts & Input
+## Phase 3: Hardware Interrupts & Input - HERE
 
 ### Phil Opp
 
