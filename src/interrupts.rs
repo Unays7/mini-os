@@ -26,9 +26,12 @@ extern "x86-interrupt" fn double_fault_handler(sf: InterruptStackFrame, _err_cod
 
 extern "x86-interrupt" fn page_fault_handler(
     sf: InterruptStackFrame,
-    err_code: PageFaultErrorCode,
+    page_fault_err: PageFaultErrorCode,
 ) {
-    panic!("EXCEPTION: PAGE FAULT\n {:?} ERROR:{:?}", sf, err_code)
+    panic!(
+        "EXCEPTION: PAGE FAULT\n {:?} ERROR:{:?}",
+        sf, page_fault_err
+    )
 }
 
 /// Interrupt Tests

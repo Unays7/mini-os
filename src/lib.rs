@@ -9,6 +9,7 @@
 use core::{arch::asm, panic::PanicInfo};
 
 pub mod custom_idt;
+pub mod global_descriptor_table;
 pub mod interrupts;
 pub mod serial;
 pub mod vga_buffer;
