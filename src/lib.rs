@@ -24,6 +24,7 @@ pub fn custom_init() {
 
 pub fn init() {
     interrupts::init_idt();
+    global_descriptor_table::init();
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
