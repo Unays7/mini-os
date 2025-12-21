@@ -17,23 +17,22 @@ pub extern "C" fn _start() -> ! {
         stackoverflow();
     }
 
-    stackoverflow();
+    // stackoverflow();
 
-    unsafe {
-        *(0xfaaadd as *mut u8) = 42;
-    }
+    // unsafe {
+    //     *(0xfaaadd as *mut u8) = 42;
+    // }
 
     #[cfg(test)]
     test_main();
 
     println!("BLAHHH");
 
-    #[allow(clippy::empty_loop)]
-    loop {}
+    mini_os::hlt_loop();
 }
 
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    mini_os::hlt_loop();
 }

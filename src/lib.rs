@@ -8,6 +8,8 @@
 
 use core::{arch::asm, panic::PanicInfo};
 
+use crate::interrupts::PIC;
+
 pub mod custom_idt;
 pub mod global_descriptor_table;
 pub mod interrupts;
@@ -22,9 +24,17 @@ pub fn custom_init() {
     custom_idt::init_idt();
 }
 
+pub fn hlt_loop() -> ! {
+    loop {
+        x86_64::instructions::hlt();
+    }
+}
+
 pub fn init() {
     interrupts::init_idt();
     global_descriptor_table::init();
+    unsafe { PIC.lock().initialize() };
+    x86_64::instructions::interrupts::enable();
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -70,7 +80,7 @@ pub fn test_panic_handler(info: &PanicInfo) -> ! {
     serial_println!("Error: {}\n", info);
     exit_qemu(QemuExitCode::Failed);
     #[allow(clippy::empty_loop)]
-    loop {}
+    hlt_loop();
 }
 
 #[cfg(test)]
@@ -79,7 +89,7 @@ pub extern "C" fn _start() -> ! {
     init();
     test_main();
     #[allow(clippy::empty_loop)]
-    loop {}
+    hlt_loop();
 }
 
 #[cfg(test)]
