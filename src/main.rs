@@ -23,16 +23,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
         if !entry.is_unused() {
             println!("L4 Entry {}: {:?}", i, entry);
         }
-    }
-
-    let l3_table = unsafe { next_lvl(l4_pt, offset) };
-
-    if let Some(l3) = l3_table {
-        for (i, entry) in l3.iter().enumerate() {
-            if !entry.is_unused() {
-                println!("L3 Entry {}: {:?}", i, entry);
-            }
-        }
+        let l3_table = unsafe { next_lvl(l4_pt, offset, i) };
     }
 
     #[cfg(test)]

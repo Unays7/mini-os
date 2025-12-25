@@ -1,4 +1,4 @@
-use x86_64::{VirtAddr, structures::paging::PageTable};
+use x86_64::{PhysAddr, VirtAddr, structures::paging::PageTable};
 
 /// # Safety
 pub unsafe fn active_lvl_4_pt(offset: VirtAddr) -> &'static mut PageTable {
@@ -12,9 +12,13 @@ pub unsafe fn active_lvl_4_pt(offset: VirtAddr) -> &'static mut PageTable {
 }
 
 /// # Safety
-pub unsafe fn next_lvl(pt: &PageTable, offset: VirtAddr) -> Option<&'static mut PageTable> {
+pub unsafe fn next_lvl(
+    pt: &PageTable,
+    offset: VirtAddr,
+    index: usize,
+) -> Option<&'static mut PageTable> {
     if !pt.is_empty() {
-        let level_entry = &pt[0];
+        let level_entry = &pt[index];
         if level_entry.is_unused() {
             return None;
         }
@@ -27,4 +31,13 @@ pub unsafe fn next_lvl(pt: &PageTable, offset: VirtAddr) -> Option<&'static mut 
         return Some(unsafe { &mut *page_table_ptr });
     }
     None
+}
+
+/// # Safety
+pub unsafe fn translate_addr(addr: VirtAddr, offset: VirtAddr) -> Option<PhysAddr> {
+    page_walk(addr, offset)
+}
+
+pub fn page_walk(addr: VirtAddr, offset: VirtAddr) -> Option<PhysAddr> {
+    todo!()
 }
