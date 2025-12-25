@@ -8,11 +8,16 @@
 
 use core::{arch::asm, panic::PanicInfo};
 
+#[cfg(test)]
+use bootloader::BootInfo;
+use bootloader::entry_point;
+
 use crate::interrupts::PIC;
 
 pub mod custom_idt;
 pub mod global_descriptor_table;
 pub mod interrupts;
+pub mod memory;
 pub mod serial;
 pub mod vga_buffer;
 
@@ -84,8 +89,9 @@ pub fn test_panic_handler(info: &PanicInfo) -> ! {
 }
 
 #[cfg(test)]
-#[unsafe(no_mangle)]
-pub extern "C" fn _start() -> ! {
+entry_point!(test_kernel_main);
+#[cfg(test)]
+fn test_kernel_main(_bi: &'static BootInfo) -> ! {
     init();
     test_main();
     #[allow(clippy::empty_loop)]

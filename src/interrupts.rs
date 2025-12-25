@@ -1,11 +1,8 @@
-use crate::{global_descriptor_table, print, println};
+use crate::{global_descriptor_table, hlt_loop, print, println};
 use lazy_static::lazy_static;
 use pic8259::ChainedPics;
 use spin;
-use x86_64::{
-    instructions::port::Port,
-    structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode},
-};
+use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
 
 pub const PIC_1_OFFSET: u8 = 32;
 pub const PIC_2_OFFSET: u8 = PIC_1_OFFSET + 8;
@@ -58,16 +55,6 @@ extern "x86-interrupt" fn double_fault_handler(sf: InterruptStackFrame, _err_cod
     panic!("EXCEPTION: DOUBLE FAULT\n{:#?}", sf);
 }
 
-extern "x86-interrupt" fn page_fault_handler(
-    sf: InterruptStackFrame,
-    page_fault_err: PageFaultErrorCode,
-) {
-    panic!(
-        "EXCEPTION: PAGE FAULT\n {:?} ERROR:{:?}",
-        sf, page_fault_err
-    )
-}
-
 extern "x86-interrupt" fn timer_interrupt(_sf: InterruptStackFrame) {
     print!(".");
     unsafe {
@@ -108,6 +95,16 @@ extern "x86-interrupt" fn keyboard_interrupt(_stack_frame: InterruptStackFrame) 
         PIC.lock()
             .notify_end_of_interrupt(InterruptIndex::Keyboard.as_u8());
     }
+}
+
+extern "x86-interrupt" fn page_fault_handler(sf: InterruptStackFrame, err: PageFaultErrorCode) {
+    use x86_64::registers::control::Cr2;
+
+    println!("EXCEPTION: Page Fault!!");
+    println!("Accessed Address: {:?}", Cr2::read());
+    println!("Error: {:?}", err);
+    println!("Stack Frame: {:?}", sf);
+    hlt_loop();
 }
 
 /// Interrupt Tests

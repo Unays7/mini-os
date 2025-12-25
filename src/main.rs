@@ -3,25 +3,37 @@
 
 use core::panic::PanicInfo;
 
-use mini_os::println;
+use bootloader::{BootInfo, entry_point};
+use mini_os::{
+    memory::{active_lvl_4_pt, next_lvl},
+    println,
+};
+use x86_64::VirtAddr;
 
-#[unsafe(no_mangle)]
-pub extern "C" fn _start() -> ! {
-    println!("Hello World{}", "!");
+entry_point!(kernel_main);
 
+fn kernel_main(boot_info: &'static BootInfo) -> ! {
+    println!("Booting Kernel.....");
     mini_os::init();
-    // mini_os::custom_init();
-    // x86_64::instructions::interrupts::int3();
-    #[allow(unconditional_recursion)]
-    fn stackoverflow() {
-        stackoverflow();
+
+    let offset = VirtAddr::new(boot_info.physical_memory_offset);
+    let l4_pt = unsafe { active_lvl_4_pt(offset) };
+
+    for (i, entry) in l4_pt.iter().enumerate() {
+        if !entry.is_unused() {
+            println!("L4 Entry {}: {:?}", i, entry);
+        }
     }
 
-    // stackoverflow();
+    let l3_table = unsafe { next_lvl(l4_pt, offset) };
 
-    // unsafe {
-    //     *(0xfaaadd as *mut u8) = 42;
-    // }
+    if let Some(l3) = l3_table {
+        for (i, entry) in l3.iter().enumerate() {
+            if !entry.is_unused() {
+                println!("L3 Entry {}: {:?}", i, entry);
+            }
+        }
+    }
 
     #[cfg(test)]
     test_main();
