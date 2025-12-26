@@ -2,7 +2,9 @@
 #![no_main]
 
 use core::panic::PanicInfo;
+extern crate alloc;
 
+use alloc::boxed::Box;
 use bootloader::{BootInfo, entry_point};
 use mini_os::{
     memory::{self, BootInfoFrameAllocator},
@@ -21,9 +23,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     mini_os::init();
 
     let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
-
     let mut mapper = unsafe { memory::init(phys_mem_offset) };
-
     let mut frame_allocator = unsafe { BootInfoFrameAllocator::init(&boot_info.memory_map) };
     let page: Page<Size4KiB> = Page::containing_address(VirtAddr::new(0xDEADBEEF000));
     let frame = PhysFrame::containing_address(PhysAddr::new(0xb8000));
@@ -35,6 +35,8 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
             .expect("map_to failed")
             .flush();
     }
+
+    let x = Box::new(77);
 
     #[cfg(test)]
     test_main();

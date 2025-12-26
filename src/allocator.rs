@@ -1,4 +1,4 @@
-use core::alloc::GlobalAlloc;
+use core::{alloc::GlobalAlloc, ptr::null_mut};
 
 #[global_allocator]
 static ALLOCATOR: Allocator = Allocator;
@@ -7,7 +7,7 @@ pub struct Allocator;
 
 unsafe impl GlobalAlloc for Allocator {
     unsafe fn alloc(&self, layout: core::alloc::Layout) -> *mut u8 {
-        todo!()
+        null_mut()
     }
 
     unsafe fn dealloc(&self, ptr: *mut u8, layout: core::alloc::Layout) {
