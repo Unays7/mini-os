@@ -7,6 +7,7 @@
 #![reexport_test_harness_main = "test_main"]
 
 use core::{arch::asm, panic::PanicInfo};
+extern crate alloc;
 
 #[cfg(test)]
 use bootloader::BootInfo;
@@ -14,6 +15,7 @@ use bootloader::entry_point;
 
 use crate::interrupts::PIC;
 
+pub mod allocator;
 pub mod custom_idt;
 pub mod global_descriptor_table;
 pub mod interrupts;
