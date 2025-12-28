@@ -1,19 +1,6 @@
 # mini-os
 
-A minimal x86_64 operating system written in Rust, following and extending [Phil Opp's excellent tutorial](https://os.phil-opp.com/).
-
-## Extension Plans?
-
-- **Custom bootloader** (GDT, mode transitions, kernel loading)
-- **System calls** (syscall/sysret, vsyscall, vDSO)
-- **Synchronization primitives** (spinlocks, mutexes, semaphores, RCU)
-- **Timers & time management** (clocksource, clockevents)
-- **Advanced interrupts** (softirq, tasklets, workqueues)
-- **Real scheduler** (beyond async/await)
-- **SMP support** (per-CPU variables, CPU masks)
-- **Process management** (cgroups)
-- **Kernel data structures** (linked lists, radix trees, bit arrays)
-- **(Maybe??) ACPI Power Management**
+A minimal x86_64 operating system written in Rust.
 
 ## Resources
 
